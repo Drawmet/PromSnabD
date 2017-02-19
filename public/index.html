@@ -21,10 +21,10 @@
             $.getJSON("get-data", function (data) {
                 var items = [];
                 items.push('<thead><tr><th>id</th><th>Title</th><th>Description</th><th>Category</th>' +
-                    '<th>Price</th><th>Image</th><th>Show</th><th>Meta</th></tr></thead>');
+                    '<th>Subcategory</th><th>Price</th><th>Image</th><th>Show</th><th>Meta</th></tr></thead>');
                 $.each(data, function (key, val) {
                     items.push('<tr id="' + key + '"><td>' + val._id + '</td><td>' + val.title + '</td><td>' + val.description + '</td><td>'
-                        + val.category + '</td><td>' + val.price + '</td><td>' + val.img + '</td><td>' + val.show
+                        + val.category + '</td><td>' + val.subcategory + '</td><td>' + val.price + '</td><td>' + val.img + '</td><td>' + val.show
                         + '</td><td>' + val.meta + '</td></tr>');
                 });
 
@@ -47,14 +47,53 @@
                 $("#func-menu").prop("action", "/delete-data");
                 $("#_id").prop("disabled",false);
             });
+            $("#find").click(function () {
+                $("#func-find").change(function () {
+                    switch($(this).val()) {
+                        case "find-all":
+                            $.getJSON("get-data", function (data) {
+                                var items = [];
+                                items.push('<thead><tr><th>id</th><th>Title</th><th>Description</th><th>Category</th>' +
+                                    '<th>Subcategory</th><th>Price</th><th>Image</th><th>Show</th><th>Meta</th></tr></thead>');
+                                $.each(data, function (key, val) {
+                                    items.push('<tr id="' + key + '"><td>' + val._id + '</td><td>' + val.title + '</td><td>' + val.description + '</td><td>'
+                                        + val.category + '</td><td>' + val.subcategory + '</td><td>' + val.price + '</td><td>' + val.img + '</td><td>' + val.show
+                                        + '</td><td>' + val.meta + '</td></tr>');
+                                });
+                            });
+                            break;
+                        case "find-by-title":
+                            $.getJSON("findByTitle", function (data) {
+                                var items = [];
+                                items.push('<thead><tr><th>id</th><th>Title</th><th>Description</th><th>Category</th>' +
+                                    '<th>Subcategory</th><th>Price</th><th>Image</th><th>Show</th><th>Meta</th></tr></thead>');
+                                $.each(data, function (key, val) {
+                                    items.push('<tr id="' + key + '"><td>' + val._id + '</td><td>' + val.title + '</td><td>' + val.description + '</td><td>'
+                                        + val.category + '</td><td>' + val.subcategory + '</td><td>' + val.price + '</td><td>' + val.img + '</td><td>' + val.show
+                                        + '</td><td>' + val.meta + '</td></tr>');
+                                });
+                            });
+                            break;
+                        case "find-by-category":
+                            $.getJSON("findByCategory", function (data) {
+                                var items = [];
+                                items.push('<thead><tr><th>id</th><th>Title</th><th>Description</th><th>Category</th>' +
+                                    '<th>Subcategory</th><th>Price</th><th>Image</th><th>Show</th><th>Meta</th></tr></thead>');
+                                $.each(data, function (key, val) {
+                                    items.push('<tr id="' + key + '"><td>' + val._id + '</td><td>' + val.title + '</td><td>' + val.description + '</td><td>'
+                                        + val.category + '</td><td>' + val.subcategory + '</td><td>' + val.price + '</td><td>' + val.img + '</td><td>' + val.show
+                                        + '</td><td>' + val.meta + '</td></tr>');
 
+                                });
+                            });
+                            break;
+                    }
+                });
+            });
         });
 
 
 
-    $("#find").click(function () {
-        console.log('success');
-    });
 </script>
 
     <title>Admin</title>
@@ -82,6 +121,10 @@
                         <div class="input">
                             <label for="category">Category</label>
                             <input type="text" class="form-control" id="category" name="category">
+                        </div>
+                        <div class="input">
+                            <label for="subcategory">Subcategory</label>
+                            <input type="text" class="form-control" id="subcategory" name="subcategory">
                         </div>
                         <div class="input">
                             <label for="price">Price</label>
@@ -116,10 +159,10 @@
                     <div id="get-data">
                     </div>
                     <div class="form-group">
-                        <select class="form-control">
-                            <option>Find All</option>
-                            <option>Find By Title</option>
-                            <option>Find By Category</option>
+                        <select id="func-find" class="form-control">
+                            <option value="find-all">Find All</option>
+                            <option value="find-by-title">Find By Title</option>
+                            <option value="find-by-category">Find By Category</option>
                         </select>
                     </div>
                     <input type="text" id="find-search" class="form-control" placeholder="Search">

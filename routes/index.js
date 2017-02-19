@@ -31,6 +31,7 @@ router.post('/insert-data', function (req, res) {
        title: req.body.title,
        description: req.body.description,
        category: req.body.category,
+       subcategory: req.body.subcategory,
        price: req.body.price,
        img: req.body.img,
        show: req.body.show,
@@ -47,6 +48,7 @@ router.post('/update-data', function (req, res) {
        title: req.body.title,
        description : req.body.description,
        category : req.body.category,
+       subcategory: req.body.subcategory,
        price : req.body.price,
        img : req.body.img,
        show : req.body.show,
@@ -56,11 +58,12 @@ router.post('/update-data', function (req, res) {
        title: data.title,
        description : data.description,
        category: data.category,
+       subcategory: data.subcategory,
        price: data.price,
        img : data.img,
        show: data.show,
        meta: data.meta
-   }}, function (err, doc) {
+   }}, function (err) {
        if(err){
          console.error('error, no entry found');
        }

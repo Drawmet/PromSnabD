@@ -16,6 +16,9 @@ var productSchema = new Schema({
         type:String,
         required:true
     },
+    subcategory:{
+        type:String
+    },
     price:{
         type:Number,
         required:true
