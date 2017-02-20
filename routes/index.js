@@ -13,14 +13,14 @@ router.get('/get-data',function (req, res) {
 });
 
 router.get('/findByTitle',function (req, res) {
-    Product.find({title:req.body.title})
+    Product.find({title:req.body.find-search})
         .then(function (doc) {
         res.send(doc);
     });
 });
 
 router.get('/findByCategory', function (req, res) {
-    Product.find({category:req.body.category})
+    Product.find({category:req.body.find-search})
         .then(function (doc) {
             res.send(doc);
         });
