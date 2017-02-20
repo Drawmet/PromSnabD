@@ -26,7 +26,6 @@ var productSchema = new Schema({
     },
     show:{
         type:Boolean,
-        required:true
     },
     meta:{
         type:Array
