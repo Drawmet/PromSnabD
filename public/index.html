@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+          crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.getJSON("get-data", function (data) {
+                var items = [];
+                items.push('<thead><tr><th>id</th><th>Title</th><th>Description</th><th>Category</th>' +
+                    '<th>Price</th><th>Image</th><th>Show</th><th>Meta</th></tr></thead>');
+                $.each(data, function (key, val) {
+                    items.push('<tr id="' + key + '"><td>' + val._id + '</td><td>' + val.title + '</td><td>' + val.description + '</td><td>'
+                        + val.category + '</td><td>' + val.price + '</td><td>' + val.img + '</td><td>' + val.show
+                        + '</td><td>' + val.meta + '</td></tr>');
+                });
+
+                $('<table/>', {
+                    'class': 'table get-data-table',
+                    html: items.join('')
+                }).appendTo('#get-data');
+            });
+            $("#insert").click(function () {
+                $("#func-menu").prop("action", "/insert-data");
+                $("#_id").prop("disabled",true);
+            });
+
+            $("#update").click(function () {
+                $("#func-menu").prop("action", "/update-data");
+                $("#_id").prop("disabled",false);
+            });
+
+            $("#delete").click(function () {
+                $("#func-menu").prop("action", "/delete-data");
+                $("#_id").prop("disabled",false);
+            });
+
+        });
+
+
+
+    $("#find").click(function () {
+        console.log('success');
+    });
+</script>
+
+    <title>Admin</title>
+</head>
+<body>
+<div class="text-primary text-center">
+    <h1>Admin Panel</h1>
+</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4">
+                    <form id="func-menu" action="/insert-data" method="post" class="well form-search">
+                        <div class="input">
+                            <label for="_id">id</label>
+                            <input type="text" class="form-control" id="_id" name="_id" disabled>
+                        </div>
+                        <div class="input">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" id="title" name="title">
+                        </div>
+                        <div class="input">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" name="description">
+                        </div>
+                        <div class="input">
+                            <label for="category">Category</label>
+                            <input type="text" class="form-control" id="category" name="category">
+                        </div>
+                        <div class="input">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control" id="price" name="price">
+                        </div>
+                        <div class="input">
+                            <label for="img">ImageName</label>
+                            <input type="text" class="form-control" id="img" name="img">
+                        </div>
+                        <div class="checkbox">
+                            <label for="show"><input type="checkbox" id="show" name="show">Show</label>
+                        </div>
+                        <div class="input">
+                            <label for="meta">Meta</label>
+                            <input type="text" class="form-control" id="meta" name="meta">
+                        </div>
+                        <div class="radio">
+                            <label for="insert"><input type="radio" id="insert" name="action" checked>Insert</label>
+                        </div>
+                        <div class="radio">
+                            <label for="update"><input type="radio" id="update" name="action">Update</label>
+                        </div>
+                        <div class="radio">
+                            <label for="delete"><input type="radio" id="delete" name="action">Delete</label>
+                        </div>
+                        <!--<input id="searchTitle" type="text" class="input-medium search-query">-->
+                        <button id="done" type="submit" name="action" class="btn btn-primary">Done</button>
+                    </form>
+            </div>
+            <div class="col-xs-8">
+                <form class="well">
+                    <div id="get-data">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option>Find All</option>
+                            <option>Find By Title</option>
+                            <option>Find By Category</option>
+                        </select>
+                    </div>
+                    <input type="text" id="find-search" class="form-control" placeholder="Search">
+                    <button id="find" type="submit" class="btn btn-info">Find</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

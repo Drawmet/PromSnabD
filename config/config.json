@@ -1,0 +1,13 @@
+{
+  "port": 27017,
+  "mongoose":{
+    "uri": "mongodb://127.0.0.1/promsnab",
+    "options":{
+      "server":{
+        "socketOptions":{
+          "keepAlive":1
+        }
+      }
+    }
+  }
+}
