@@ -20,7 +20,7 @@ router.get('/findByTitle',function (req, res) {
 });
 
 router.get('/findByCategory', function (req, res) {
-    Product.find({category:req.body.find-search})
+    Product.find({category:req.body.findby})
         .then(function (doc) {
             res.send(doc);
         });
