@@ -2,25 +2,29 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var Product = require('../models/product').Product;
+var url=require('url');
 
 mongoose.connect('mongodb://127.0.0.1:27017/promsnabdbadmin');
 
 router.get('/get-data',function (req, res) {
-   Product.find()
+    Product.find()
        .then(function (doc) {
        res.send(doc);
+       res.end();
    });
 });
 
 router.get('/findByTitle',function (req, res) {
-    Product.find({title:req.body.findby})
+    var title = req.param('title');
+    Product.find({title:title})
         .then(function (doc) {
         res.send(doc);
     });
 });
 
 router.get('/findByCategory', function (req, res) {
-    Product.find({category:req.body.findby})
+    var category = req.param('category');
+    Product.find({category:category})
         .then(function (doc) {
             res.send(doc);
         });
@@ -42,7 +46,59 @@ router.post('/insert-data', function (req, res) {
    res.redirect('/');
 });
 
+router.post('/update-category', function (req, res) {
+    var lastCategory = req.body.category[0];
+    var newCategory = req.body.category[1];
+    Product.find({category: lastCategory}, function (err, docs) {
+        docs.forEach(function (item) {
+            Product.findByIdAndUpdate(item._id, {
+                $set: {
+                    title: item.title,
+                    description: item.description,
+                    category: newCategory,
+                    subcategory: item.subcategory,
+                    price: item.price,
+                    img: item.img,
+                    show: item.show,
+                    meta: item.meta
+                }
+            }, function (err) {
+                if (err)
+                    console.err('error, no empty found');
+            })
+        })
+    });
+    res.redirect('/');
+});
+
+router.post('/update-subcategory', function (req, res) {
+    var lastCategory = req.body.category[0];
+    var newCategory = req.body.category[1];
+    console.log(lastCategory + newCategory);
+    Product.find({subcategory: lastCategory}, function (err, docs) {
+        docs.forEach(function (item) {
+            Product.findByIdAndUpdate(item._id, {
+                $set: {
+                    title: item.title,
+                    description: item.description,
+                    category: item.category,
+                    subcategory: newCategory,
+                    price: item.price,
+                    img: item.img,
+                    show: item.show,
+                    meta: item.meta
+                }
+            }, function (err) {
+                if (err)
+                    console.err('error, no empty found');
+            })
+        })
+    });
+    res.redirect('/');
+});
+
 router.post('/update-data', function (req, res) {
+    console.log(req.body.title);
    var data = {
        _id : req.body._id,
        title: req.body.title,
@@ -54,6 +110,7 @@ router.post('/update-data', function (req, res) {
        show : req.body.show,
        meta : req.body.meta
    };
+
    Product.findByIdAndUpdate(data._id, {$set: {
        title: data.title,
        description : data.description,

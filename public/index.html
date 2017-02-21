@@ -23,16 +23,21 @@
                 items.push('<thead><tr><th>id</th><th>Title</th><th>Description</th><th>Category</th>' +
                     '<th>Subcategory</th><th>Price</th><th>Image</th><th>Show</th><th>Meta</th></tr></thead>');
                 $.each(data, function (key, val) {
-                    items.push('<tr id="' + key + '"><td>' + val._id + '</td><td>' + val.title + '</td><td>' + val.description + '</td><td>'
-                        + val.category + '</td><td>' + val.subcategory + '</td><td>' + val.price + '</td><td>' + val.img + '</td><td>' + val.show
-                        + '</td><td>' + val.meta + '</td></tr>');
+                    items.push('<tr class="db-item" id="' + key + '"><td class="item-key">' +
+                        val._id + '</td><td class="item-title">' + val.title + '</td><td class="item-description">'
+                        + val.description + '</td><td class="item-category">' + val.category +
+                        '</td><td class="item-subcategory">' + val.subcategory + '</td><td class="item-price">'
+                        + val.price + '</td><td class="item-img">' + val.img + '</td><td class="item-show">'
+                        + val.show + '</td><td class="item-meta">' + val.meta + '</td></tr>');
                 });
 
                 $('<table/>', {
+                    'id': 'find-table',
                     'class': 'table get-data-table',
                     html: items.join('')
                 }).appendTo('#get-data');
             });
+
             $("#insert").click(function () {
                 $("#func-menu").prop("action", "/insert-data");
                 $("#_id").prop("disabled",true);
@@ -47,53 +52,49 @@
                 $("#func-menu").prop("action", "/delete-data");
                 $("#_id").prop("disabled",false);
             });
-            $("#find").click(function () {
-                $("#func-find").change(function () {
-                    switch($(this).val()) {
-                        case "find-all":
-                            $.getJSON("get-data", function (data) {
-                                var items = [];
-                                items.push('<thead><tr><th>id</th><th>Title</th><th>Description</th><th>Category</th>' +
-                                    '<th>Subcategory</th><th>Price</th><th>Image</th><th>Show</th><th>Meta</th></tr></thead>');
-                                $.each(data, function (key, val) {
-                                    items.push('<tr id="' + key + '"><td>' + val._id + '</td><td>' + val.title + '</td><td>' + val.description + '</td><td>'
-                                        + val.category + '</td><td>' + val.subcategory + '</td><td>' + val.price + '</td><td>' + val.img + '</td><td>' + val.show
-                                        + '</td><td>' + val.meta + '</td></tr>');
-                                });
-                            });
-                            break;
-                        case "find-by-title":
-                            $.getJSON("findByTitle", function (data) {
-                                var items = [];
-                                items.push('<thead><tr><th>id</th><th>Title</th><th>Description</th><th>Category</th>' +
-                                    '<th>Subcategory</th><th>Price</th><th>Image</th><th>Show</th><th>Meta</th></tr></thead>');
-                                $.each(data, function (key, val) {
-                                    items.push('<tr id="' + key + '"><td>' + val._id + '</td><td>' + val.title + '</td><td>' + val.description + '</td><td>'
-                                        + val.category + '</td><td>' + val.subcategory + '</td><td>' + val.price + '</td><td>' + val.img + '</td><td>' + val.show
-                                        + '</td><td>' + val.meta + '</td></tr>');
-                                });
-                            });
-                            break;
-                        case "find-by-category":
-                            $.getJSON("findByCategory", function (data) {
-                                var items = [];
-                                items.push('<thead><tr><th>id</th><th>Title</th><th>Description</th><th>Category</th>' +
-                                    '<th>Subcategory</th><th>Price</th><th>Image</th><th>Show</th><th>Meta</th></tr></thead>');
-                                $.each(data, function (key, val) {
-                                    items.push('<tr id="' + key + '"><td>' + val._id + '</td><td>' + val.title + '</td><td>' + val.description + '</td><td>'
-                                        + val.category + '</td><td>' + val.subcategory + '</td><td>' + val.price + '</td><td>' + val.img + '</td><td>' + val.show
-                                        + '</td><td>' + val.meta + '</td></tr>');
 
+            $("#func-find").click(function () {
+                    var req;
+                        switch ($(this).val()){
+                            case "find":
+                                req = "get-data";
+                                break;
+                            case "find-by-title":
+                                req = "/findByTitle?title=" + $(".find").val();
+                                break;
+                            case "find-by-category":
+                                req = "/findByCategory?category=" + $(".find").val();
+                                break;
+                        }
+                            $.getJSON(req, function (data) {
+                                console.log(data);
+                                var items = [];
+                                items.push('<thead><tr><th>id</th><th>Title</th><th>Description</th><th>Category</th>' +
+                                    '<th>Subcategory</th><th>Price</th><th>Image</th><th>Show</th><th>Meta</th></tr></thead>');
+                                $.each(data, function (key, val) {
+                                    items.push('<tr class="db-item" id="' + key + '"><td class="item-key">' + val._id +
+                                        '</td><td class="item-title">' + val.title + '</td><td class="item-description">'
+                                        + val.description + '</td><td class="item-category">' + val.category +
+                                        '</td><td class="item-subcategory">' + val.subcategory + '</td><td class="item-price">'
+                                        + val.price + '</td><td class="item-img">' + val.img + '</td><td class="item-show">'
+                                        + val.show + '</td><td class="item-meta">' + val.meta + '</td></tr>');
                                 });
+                                $('#find-table').remove();
+                                $('<table/>', {
+                                    'id' : 'find-table',
+                                    'class': 'table get-data-table',
+                                    html: items.join('')
+                                }).appendTo('#get-data');
                             });
-                            break;
-                    }
                 });
+
+            $("#categoryUpdate").click(function () {
+                $("#update-category").prop("action", "/update-category");
+            });
+            $("#subcategoryUpdate").click(function () {
+                $("#update-category").prop("action","/update-subcategory");
             });
         });
-
-
-
 </script>
 
     <title>Admin</title>
@@ -135,7 +136,7 @@
                             <input type="text" class="form-control" id="img" name="img">
                         </div>
                         <div class="checkbox">
-                            <label for="show"><input type="checkbox" id="show" name="show">Show</label>
+                            <label for="show"><input type="checkbox" id="show" name="show" checked>Show</label>
                         </div>
                         <div class="input">
                             <label for="meta">Meta</label>
@@ -158,15 +159,38 @@
                 <form class="well">
                     <div id="get-data">
                     </div>
+                    <div class="input">
+                        <div class="form-group">
+                            <input type="text" id="find" class="find form-control" placeholder="Search">
+                        </div>
                     <div class="form-group">
                         <select id="func-find" class="form-control">
-                            <option value="find-all">Find All</option>
+                            <option value="find">Find All</option>
                             <option value="find-by-title">Find By Title</option>
                             <option value="find-by-category">Find By Category</option>
                         </select>
                     </div>
-                    <input type="text" id="findby" class="form-control" placeholder="Search">
-                    <button id="find-button" type="submit" class="btn btn-info">Find</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <h3>Update Category</h3>
+                <form id="update-category" action="/update-category" method="post" class="well form-search">
+                    <div class="input">
+                        <label for="lastCategory">Previous Category</label>
+                        <input type="text" class="form-control" id="lastCategory" name="category">
+                        <label for="newCategory">New Category</label>
+                        <input type="text" class="form-control" id="newCategory" name="category">
+                    </div>
+                    <div class="radio">
+                        <label for="categoryUpdate"><input type="radio" id="categoryUpdate" name="action" checked>Category</label>
+                    </div>
+                    <div class="radio">
+                        <label for="subcategoryUpdate"><input type="radio" id="subcategoryUpdate" name="action">Subcategory</label>
+                    </div>
+                    <button id="doneUpdate" type="submit" name="action" class="btn btn-primary">Done</button>
                 </form>
             </div>
         </div>
