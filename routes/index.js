@@ -13,7 +13,7 @@ router.get('/get-data',function (req, res) {
 });
 
 router.get('/findByTitle',function (req, res) {
-    Product.find({title:req.body.find-search})
+    Product.find({title:req.body.findby})
         .then(function (doc) {
         res.send(doc);
     });
