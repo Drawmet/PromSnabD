@@ -97,6 +97,14 @@ router.post('/update-subcategory', function (req, res) {
     res.redirect('/');
 });
 
+router.get('/auto-correct',function (req, res) {
+    var id = req.param('id');
+    Product.findById(id)
+        .then(function (doc) {
+            res.send(doc);
+        });
+});
+
 router.post('/update-data', function (req, res) {
     console.log(req.body.title);
    var data = {
