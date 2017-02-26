@@ -21,17 +21,18 @@ $(document).ready(function () {
 
     $("#insert").click(function () {
         $("#func-menu").prop("action", "/insert-data");
-        document.getElementById('_id').value = "";
+        document.getElementById('id').value = "";
     });
 
     $("#update").click(function () {
         $("#func-menu").prop("action", "/update-data");
-        $("#_id").prop("disabled",false);
+        document.getElementById('insert').checked = false;
     });
 
     $("#delete").click(function () {
         $("#func-menu").prop("action", "/delete-data");
         $("#_id").prop("disabled",false);
+        document.getElementById('insert').checked = false;
     });
 
     $("#func-find").click(function () {
@@ -92,7 +93,7 @@ $(document).ready(function () {
             document.getElementById('img').value  = data.img;
             document.getElementById('show').value  = data.show;
             document.getElementById('meta').value  = data.meta;
-            if (document.getElementById('insert').value)
+            if (document.getElementById('insert').checked)
             document.getElementById('_id').value = "";
         });
     })
