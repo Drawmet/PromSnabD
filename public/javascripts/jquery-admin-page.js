@@ -74,7 +74,12 @@ $(document).ready(function () {
     });
 
     $("#subcategoryUpdate").click(function () {
+
         $("#update-category").prop("action","/update-subcategory");
+    });
+
+    $("#descriptionUpdate").click(function () {
+        $("#update-category").prop("action","/update-description");
     });
 
     $("#_id").on("input", function () {
@@ -87,7 +92,7 @@ $(document).ready(function () {
             document.getElementById('img').value  = data.img;
             document.getElementById('show').value  = data.show;
             document.getElementById('meta').value  = data.meta;
-            if ($("#insert").prop("checked",true))
+            if (document.getElementById('insert').value)
             document.getElementById('_id').value = "";
         });
     })

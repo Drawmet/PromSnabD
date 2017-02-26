@@ -97,6 +97,32 @@ router.post('/update-subcategory', function (req, res) {
     res.redirect('/');
 });
 
+router.post('/update-description', function (req, res) {
+    var lastCategory = req.body.category[0];
+    var newCategory = req.body.category[1];
+    console.log(lastCategory + newCategory);
+    Product.find({description: lastCategory}, function (err, docs) {
+        docs.forEach(function (item) {
+            Product.findByIdAndUpdate(item._id, {
+                $set: {
+                    title: item.title,
+                    description: newCategory,
+                    category: item.category,
+                    subcategory: item.subcategory,
+                    price: item.price,
+                    img: item.img,
+                    show: item.show,
+                    meta: item.meta
+                }
+            }, function (err) {
+                if (err)
+                    console.err('error, no empty found');
+            })
+        })
+    });
+    res.redirect('/');
+});
+
 router.get('/auto-correct',function (req, res) {
     var id = req.param('id');
     Product.findById(id)
