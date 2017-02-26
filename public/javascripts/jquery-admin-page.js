@@ -21,7 +21,6 @@ $(document).ready(function () {
 
     $("#insert").click(function () {
         $("#func-menu").prop("action", "/insert-data");
-        $("#_id").prop("disabled",true);
         document.getElementById('_id').value = "";
     });
 
@@ -88,6 +87,8 @@ $(document).ready(function () {
             document.getElementById('img').value  = data.img;
             document.getElementById('show').value  = data.show;
             document.getElementById('meta').value  = data.meta;
+            if ($("#insert").prop("checked",true))
+            document.getElementById('_id').value = "";
         });
     })
 });
