@@ -7,7 +7,7 @@ var url=require('url');
 mongoose.connect('mongodb://127.0.0.1:27017/promsnabdbadmin');
 
 router.get('/get-data',function (req, res) {
-    Product.find()
+    Product.find().sort({created:'descending'})
        .then(function (doc) {
        res.send(doc);
        res.end();

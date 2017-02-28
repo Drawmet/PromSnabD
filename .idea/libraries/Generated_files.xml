@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/dist/public/javascripts/react-index.js" />
+        <item url="file://$PROJECT_DIR$/dist/routes/index.js" />
+        <item url="file://$PROJECT_DIR$/dist/models/product.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/dist/public/javascripts/react-index.js" />
+      <root url="file://$PROJECT_DIR$/dist/routes/index.js" />
+      <root url="file://$PROJECT_DIR$/dist/models/product.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

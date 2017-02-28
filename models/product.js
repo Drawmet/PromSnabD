@@ -32,7 +32,12 @@ var productSchema = new Schema({
     },
     meta:{
         type:Array
+    },
+    created:{
+        type:Date,
+        default:Date.now
     }
 });
+productSchema.method();
 
 exports.Product = mongoose.model('product', productSchema);
